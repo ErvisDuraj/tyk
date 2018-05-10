@@ -3,6 +3,7 @@ package regexp
 import "testing"
 
 func TestCompile(t *testing.T) {
+	ResetCache()
 	// 1st miss
 	rx, err := Compile("^abc.*$")
 	if err != nil {
@@ -28,6 +29,8 @@ func TestCompile(t *testing.T) {
 }
 
 func BenchmarkRegExpCompile(b *testing.B) {
+	ResetCache()
+
 	b.ReportAllocs()
 
 	var rx *Regexp
@@ -44,6 +47,7 @@ func BenchmarkRegExpCompile(b *testing.B) {
 }
 
 func TestCompilePOSIX(t *testing.T) {
+	ResetCache()
 	// 1st miss
 	rx, err := CompilePOSIX("^abc.*$")
 	if err != nil {
@@ -69,6 +73,8 @@ func TestCompilePOSIX(t *testing.T) {
 }
 
 func BenchmarkRegExpCompilePOSIX(b *testing.B) {
+	ResetCache()
+
 	b.ReportAllocs()
 
 	var rx *Regexp
@@ -85,6 +91,7 @@ func BenchmarkRegExpCompilePOSIX(b *testing.B) {
 }
 
 func TestMustCompile(t *testing.T) {
+	ResetCache()
 	// 1st miss
 	rx := MustCompile("^abc.*$")
 	if rx.FromCache {
@@ -115,6 +122,8 @@ func TestMustCompile(t *testing.T) {
 }
 
 func BenchmarkRegExpMustCompile(b *testing.B) {
+	ResetCache()
+
 	b.ReportAllocs()
 
 	var rx *Regexp
@@ -127,6 +136,7 @@ func BenchmarkRegExpMustCompile(b *testing.B) {
 }
 
 func TestMustCompilePOSIX(t *testing.T) {
+	ResetCache()
 	// 1st miss
 	rx := MustCompilePOSIX("^abc.*$")
 	if rx.FromCache {
@@ -157,6 +167,7 @@ func TestMustCompilePOSIX(t *testing.T) {
 }
 
 func BenchmarkRegExpMustCompilePOSIX(b *testing.B) {
+	ResetCache()
 	b.ReportAllocs()
 
 	var rx *Regexp
@@ -169,6 +180,7 @@ func BenchmarkRegExpMustCompilePOSIX(b *testing.B) {
 }
 
 func TestMatchString(t *testing.T) {
+	ResetCache()
 	// 1st miss
 	matched, err := MatchString("^abc.*$", "abcedfxyz")
 	if err != nil {
@@ -188,6 +200,7 @@ func TestMatchString(t *testing.T) {
 }
 
 func BenchmarkRegExpMatchString(b *testing.B) {
+	ResetCache()
 	b.ReportAllocs()
 
 	matched := false
@@ -205,6 +218,7 @@ func BenchmarkRegExpMatchString(b *testing.B) {
 }
 
 func TestMatch(t *testing.T) {
+	ResetCache()
 	data := []byte("abcdefxyz")
 	// 1st miss
 	matched, err := Match("^abc.*$", data)
@@ -225,6 +239,8 @@ func TestMatch(t *testing.T) {
 }
 
 func BenchmarkRegExpMatch(b *testing.B) {
+	ResetCache()
+
 	b.ReportAllocs()
 
 	data := []byte("abcdefxyz")

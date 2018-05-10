@@ -10,6 +10,27 @@ import (
 )
 
 var (
+	compileRegexpCache                 compileCache
+	compileRegexpPOSIXCache            compilePOSIXCache
+	matchStringRegexpCache             matchStringCache
+	matchRegexpCache                   matchCache
+	replaceAllStringRegexpCache        replaceAllStringCache
+	replaceAllLiteralStringRegexpCache replaceAllLiteralStringCache
+	replaceAllStringFuncRegexpCache    replaceAllStringFuncCache
+)
+
+// Regexp is a wrapper around regexp.Regexp but with caching
+type Regexp struct {
+	*regexp.Regexp
+	FromCache bool
+}
+
+func init() {
+	ResetCache()
+}
+
+// ResetCache resets cache to initial state
+func ResetCache() {
 	compileRegexpCache = compileCache{
 		cache: map[string]*regexp.Regexp{},
 	}
@@ -31,12 +52,6 @@ var (
 	replaceAllStringFuncRegexpCache = replaceAllStringFuncCache{
 		cache: map[string]string{},
 	}
-)
-
-// Regexp is a wrapper around regexp.Regexp but with caching
-type Regexp struct {
-	*regexp.Regexp
-	FromCache bool
 }
 
 // Compile does the same as regexp.Compile but returns cached *Regexp instead.
